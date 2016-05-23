@@ -1,0 +1,24 @@
+FT_LS:
+
+1: OK (without opt -R)
+2: ...
+3: ...
+
+1: Read entry
+    - Options/Parameters
+        Options (-l, -a, -R, -r, -t) or combined (ex: -la, -Ra, ...)
+        Pram (file or directory) if nothing => read in current directory
+					\=> problem file (function "opendir" -> error)
+2: Recover and data processing
+	-Open flux
+	-Recover data
+	-Sort data
+3: Print data
+
+Error - Segmentation fault !
+
+--
+||function "sortfile":
+||	-Include options (-r and without: OK)
+||		\=> opt -t
+--
