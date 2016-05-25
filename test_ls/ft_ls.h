@@ -6,7 +6,7 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 18:36:06 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/05/23 18:44:57 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/05/25 16:36:13 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ typedef struct		s_llist
 int					detect_opts(int ac, char **av, t_opts *opts);
 t_llist				*stockdata(char *dirname, t_llist *llist);
 t_llist				*sortfile(t_llist *llist, t_opts opts);
+void				print_and_destroy(t_llist *llist, t_opts opts);
 
 #endif

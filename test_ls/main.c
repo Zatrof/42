@@ -6,7 +6,7 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 18:35:24 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/05/23 18:41:48 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/05/25 18:41:59 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,38 +19,6 @@ static t_llist		*initllist(t_llist *llist)
 	llist->start = NULL;
 	llist->size = 0;
 	return (llist);
-}
-
-void				testprint(t_llist *llist, t_opts opts)
-{
-	t_list			*l;
-	t_file			*tmp;
-	char			*a;
-
-	l = llist->start;
-	while (l)
-	{
-		tmp = l->content;
-		if (opts.a != 1 && tmp->name[0] == '.')
-			l = l->next;
-		else
-		{
-			ft_putstr(tmp->perm);
-			ft_putstr(" ");
-			ft_putnbr(tmp->link);
-			ft_putstr(" ");
-			ft_putstr(tmp->user);
-			ft_putstr(" ");
-			ft_putstr(tmp->group);
-			ft_putstr(" ");
-			ft_putnbr(tmp->size);
-			ft_putstr(" ");
-			ft_putstr(tmp->date);
-			ft_putstr(" ");
-			ft_putendl(tmp->name);
-			l = l->next;
-		}
-	}
 }
 
 int					main(int ac, char **av)
@@ -75,7 +43,6 @@ int					main(int ac, char **av)
 		i++;
 	}
 	llist = sortfile(llist, opts);
-	testprint(llist, opts);
-	//print_and_destroy
+	print_and_destroy(llist, opts);
 	return (0);
 }
