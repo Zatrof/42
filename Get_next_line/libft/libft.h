@@ -6,14 +6,13 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/17 13:04:56 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/05/16 14:18:20 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/05/30 18:40:33 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# define BUFF_SIZE 42
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
@@ -69,7 +68,6 @@ void				*ft_memccpy(void *dst, const void *src, int c, size_t n);
 void				*ft_memcpy(void *dst, const void *src, size_t n);
 void				*ft_memset(void *b, int c, size_t len);
 void				*ft_memalloc(size_t size);
-int					get_next_line(int fd, char **line);
 int					ft_abs(int nbr);
 int					ft_nbrlen(int n);
 int					ft_strnequ(const char *s1, const char *s2, size_t n);

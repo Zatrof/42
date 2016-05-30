@@ -6,7 +6,7 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/02 18:04:02 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/05/02 16:47:39 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/05/30 19:24:41 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,14 @@ int					nameless(int fd, char *buf, char **tmp)
 	char			*temp;
 	int				ret;
 
+	if (!*tmp)
+	{
+		if ((ret = read(fd, buf, BUFF_SIZE)) == -1)
+			return (-1);
+		if ((*tmp = ft_strsub(buf, 0, ret)) == NULL)
+			return (-1);
+		return (ret);
+	}
 	if ((ret = read(fd, buf, BUFF_SIZE)) == -1)
 		return (-1);
 	if ((temp = ft_strsub(buf, 0, ret)) == NULL)
@@ -72,20 +80,21 @@ int					get_next_line(int fd, char **line)
 	int				ret;
 	int				i;
 
-	if (!tmp)
-	{
-		if ((ret = read(fd, buf, BUFF_SIZE)) == -1)
-			return (-1);
-		if ((tmp = ft_strsub(buf, 0, ret)) == NULL)
-			return (-1);
-	}
+	if ((ret = nameless(fd, buf, &tmp)) == -1)
+		return (-1);
 	while ((i = detect_line(tmp)) == -1)
 	{
 		if ((ret = nameless(fd, buf, &tmp)) == -1)
 			return (-1);
 		if (ret == 0)
 		{
-			ft_strdel(&tmp);
+			if (ft_strlen(tmp) != 0)
+			{
+				if ((*line = ft_strdup(tmp)) == NULL)
+					return (-1);
+				ft_strdel(&tmp);
+				return (1);
+			}
 			return (0);
 		}
 	}
