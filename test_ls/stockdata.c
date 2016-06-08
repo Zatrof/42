@@ -6,7 +6,7 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/23 16:40:37 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/05/23 18:58:47 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/06/08 10:52:29 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ static int			rdata(char *path, t_llist **llist, char *filename)
 		return (-1);
 	if ((file->date = mtime(&buf.st_mtime)) == NULL)
 		return (-1);
+	file->time = buf.st_mtime;
 	file->size = buf.st_size;
 	file->link = buf.st_nlink;
 	list = (*llist)->start;

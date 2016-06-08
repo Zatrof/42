@@ -6,7 +6,7 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/19 17:18:33 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/05/19 18:51:19 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/06/08 11:29:02 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 
 static int			comparecontent(t_file *cont1, t_file *cont2, t_opts opts)
 {
+
+	//BOUCLE INFINIT !
+	if (opts.t == 1)
+	{
+		if (opts.r == 1)
+			return ((cont1->time > cont2->time) ? 1 : -1);
+		return ((cont1->time > cont2->time) ? -1 : 1);
+	}
 	if (opts.r == 1)
 		return (ft_strcmp(cont1->name, cont2->name) * -1);
 	return (ft_strcmp(cont1->name, cont2->name));

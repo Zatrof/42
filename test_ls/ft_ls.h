@@ -6,7 +6,7 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 18:36:06 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/05/25 16:36:13 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/06/08 10:54:32 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct		s_file
 	char			*date;
 	int				size;
 	int				link;
+	long			time;
 }					t_file;
 
 typedef struct		s_llist
