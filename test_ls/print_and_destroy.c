@@ -6,7 +6,7 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/25 16:32:53 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/06/08 10:47:43 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/07/05 17:59:43 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ void				printlist(t_file *file, int i, t_opts opts, int p)
 void				print_and_destroy(t_llist *llist, t_opts opts)
 {
 	t_list			*list;
-	t_list			*tmp;
 	t_file			*f;
 	int				i;
 	int				p;
@@ -110,10 +109,29 @@ void				print_and_destroy(t_llist *llist, t_opts opts)
 	while (list)
 	{
 		f = list->content;
-		printlist(f, i, opts, p);
-		tmp = list->next;
-		destroy(list);
-		list = tmp;
+		if (f->name != NULL)
+			printlist(f, i, opts, p);
+		else
+			ft_putendl_fd(f->logerror, 2);
+		list = list->next;
 	}
+	//function recursive
+	if (opts.rr == 1)
+	{
+		list = llist->start;
+		while (list)
+		{
+			//BUG ../..
+			f = list->content;
+			if (f->perm[0] == 'd' && ft_strcmp(f->name, ".") != 0 && \
+				ft_strcmp(f->name, "..") != 0)
+			{
+				ft_putendl("");
+				print_and_destroy(f->rec, opts);
+			}
+			list = list->next;
+		}
+	}
+	//end
 	free(llist);
 }

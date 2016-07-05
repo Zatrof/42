@@ -6,7 +6,7 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 18:36:06 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/06/08 10:54:32 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/07/05 17:59:48 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,12 @@ typedef struct		s_file
 	char			*user;
 	char			*group;
 	char			*date;
+	char			*logerror;
 	int				size;
 	int				link;
 	long			time;
+	char			*path;
+	struct s_llist	*rec;
 }					t_file;
 
 typedef struct		s_llist
@@ -50,9 +53,15 @@ typedef struct		s_llist
 	int				size;
 }					t_llist;
 
+int					rdata(char *path, t_llist **llist, char *filename);
+char				*mtime(time_t *t);
+int					perm(mode_t right, t_file **file);
+int					rstat(char *path, char *filename, t_file **file, \
+	struct stat buf);
 int					detect_opts(int ac, char **av, t_opts *opts);
 t_llist				*stockdata(char *dirname, t_llist *llist);
 t_llist				*sortfile(t_llist *llist, t_opts opts);
 void				print_and_destroy(t_llist *llist, t_opts opts);
+t_llist				*initllist(t_llist *llist);
 
 #endif

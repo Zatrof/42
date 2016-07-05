@@ -1,19 +1,31 @@
 FT_LS:
 
-1: OK (without opt -R)
-2: OK (option -R/-t/ and without -l)
-3: OK
+>Test:
+	-ft_ls [correct file] (v)
+	-ft_ls [error file] (v)
+	-ft_ls [correct file] [correct file] (v)
+	-ft_ls [correct file] [error file] (v)
+	-ft_ls [error file] [correct file] (v)
+	-ft_ls [correct dir] [correct dir] (x)
+		\_output format *
+	-ft_ls [correct dir] [error dir] (x)
+		\_output format *
+	-ft_ls -R (x)
+		\_output format *
+	-ft_ls -R [correct dir] [correct dir] (x)
+		\_output format *
 
-1: Read entry
-    - Options/Parameters
-        Options (-l, -a, -R, -r, -t) or combined (ex: -la, -Ra, ...)
-        Pram (file or directory) if nothing => read in current directory
-					\=> problem file (function "opendir" -> error)
-2: Recover and data processing
-	-Open flux
-	-Recover data
-	-Sort data
-3: Print data
-
-!!! PROBLEM DISPLAY FORMAT !!!
-	\=> extra space
+* Output format:
+	- when ac >= 2 => print dir name + space between **
+		ex:	->./ft_ls . ..
+			->.:
+			->[file]
+			->...
+			->...
+			->(space **)
+			->..:
+			->[file]
+			->...
+			->...
+			->...
+	- when ac == 1 => no dir name
