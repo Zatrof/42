@@ -6,7 +6,7 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 18:36:06 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/07/05 17:59:48 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/07/08 15:58:46 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,11 @@ typedef struct		s_llist
 	int				size;
 }					t_llist;
 
+void				destroy(t_list *list);
+int					thebiggestl(t_llist *llist, t_opts opts);
+int					thebiggests(t_llist *llist, t_opts opts);
+t_llist				*print_rec(t_opts opts, t_list *list, t_llist *llist, \
+	t_file *f);
 int					rdata(char *path, t_llist **llist, char *filename);
 char				*mtime(time_t *t);
 int					perm(mode_t right, t_file **file);

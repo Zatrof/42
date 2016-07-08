@@ -6,14 +6,14 @@
 #    By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/04/25 16:40:21 by jbristhu          #+#    #+#              #
-#    Updated: 2016/06/15 17:50:01 by jbristhu         ###   ########.fr        #
+#    Updated: 2016/07/08 15:59:20 by jbristhu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
 
 SRC = main.c detect_opts.c stockdata.c sortfile.c print_and_destroy.c \
-annexe_stockdata.c
+annexe_stockdata.c annexe_print_and_destroy.c
 
 O = $(subst .c,.o,$(SRC))
 

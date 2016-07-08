@@ -6,63 +6,11 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/25 16:32:53 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/07/05 17:59:43 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/07/08 16:40:38 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-
-void				destroy(t_list *list)
-{
-	t_file			*tmp;
-
-	tmp = list->content;
-	ft_strdel(&tmp->perm);
-	ft_strdel(&tmp->name);
-	ft_strdel(&tmp->user);
-	ft_strdel(&tmp->group);
-	ft_strdel(&tmp->date);
-	free(list);
-}
-
-int					thebiggestl(t_llist *llist, t_opts opts)
-{
-	int				i;
-	t_file			*f;
-	t_list			*tmp;
-
-	i = 0;
-	tmp = llist->start;
-	while (tmp)
-	{
-		f = tmp->content;
-		if (f->name[0] != '.' || opts.a == 1)
-		{
-			if (ft_nbrlen(f->link) > i)
-				i = ft_nbrlen(f->link);
-		}
-		tmp = tmp->next;
-	}
-	return (i);
-}
-
-int					thebiggests(t_llist *llist, t_opts opts)
-{
-	int				i;
-	t_file			*f;
-	t_list			*tmp;
-
-	i = 0;
-	tmp = llist->start;
-	while (tmp)
-	{
-		f = tmp->content;
-		if (ft_nbrlen(f->size) > i)
-			i = ft_nbrlen(f->size);
-		tmp = tmp->next;
-	}
-	return (i);
-}
 
 void				printlist(t_file *file, int i, t_opts opts, int p)
 {
@@ -101,7 +49,7 @@ void				print_and_destroy(t_llist *llist, t_opts opts)
 	int				p;
 
 	list = llist->start;
-	if (opts.l == 1)
+	if (opts.l == 1 && llist->size != -1)
 	{
 		p = thebiggestl(llist, opts);
 		i = thebiggests(llist, opts) + 2;
@@ -109,29 +57,12 @@ void				print_and_destroy(t_llist *llist, t_opts opts)
 	while (list)
 	{
 		f = list->content;
-		if (f->name != NULL)
+		if (f->name != NULL && llist->size != -1)
 			printlist(f, i, opts, p);
 		else
 			ft_putendl_fd(f->logerror, 2);
 		list = list->next;
 	}
-	//function recursive
-	if (opts.rr == 1)
-	{
-		list = llist->start;
-		while (list)
-		{
-			//BUG ../..
-			f = list->content;
-			if (f->perm[0] == 'd' && ft_strcmp(f->name, ".") != 0 && \
-				ft_strcmp(f->name, "..") != 0)
-			{
-				ft_putendl("");
-				print_and_destroy(f->rec, opts);
-			}
-			list = list->next;
-		}
-	}
-	//end
+	llist = print_rec(opts, list, llist, f);
 	free(llist);
 }

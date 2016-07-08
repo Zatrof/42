@@ -6,7 +6,7 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/23 16:40:37 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/07/05 17:34:06 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/07/08 16:27:24 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ static t_llist		*test_ex(char *dirname, t_llist *llist)
 
 	test = 0;
 	if ((dir = opendir(".")) == NULL)
+	{
+		ft_putendl_fd("ERROR - OPENDIR", 2);
 		return (NULL);
+	}
 	while ((sfile = readdir(dir)) != NULL)
 	{
 		if (ft_strcmp(dirname, sfile->d_name) == 0)
@@ -38,7 +41,7 @@ static t_llist		*test_ex(char *dirname, t_llist *llist)
 	return (llist);
 }
 
-static int			stockrec(t_llist *llist, char *path)
+static t_llist		*stockrec(t_llist *llist, char *path)
 {
 	t_list			*tmp;
 	t_file			*test;
@@ -49,16 +52,16 @@ static int			stockrec(t_llist *llist, char *path)
 		ft_strcmp(test->name, "..") != 0)
 	{
 		if ((test->rec = initllist(test->rec)) == NULL)
-			return (-1);
+			return (NULL);
 		if ((test->path = ft_strjoin(path, test->name)) == NULL)
-			return (-1);
+			return (NULL);
 		if ((test->rec = stockdata(test->path, test->rec)) == NULL)
 		{
 			ft_putendl_fd("ERROR - ADD DATA", 2);
-			return (-1);
+			return (NULL);
 		}
 	}
-	return (0);
+	return (llist);
 }
 
 static t_llist		*logerror(char *dirname, t_llist *llist)
@@ -76,6 +79,7 @@ static t_llist		*logerror(char *dirname, t_llist *llist)
 		return (NULL);
 	if ((llist->start = ft_lstnew(file, sizeof(*file))) == NULL)
 		return (NULL);
+	llist->size = -1;
 	return (llist);
 }
 
@@ -101,7 +105,7 @@ t_llist				*stockdata(char *dirname, t_llist *llist)
 			ft_putendl_fd("ERROR - ADD DATA", 2);
 			return (NULL);
 		}
-		if (stockrec(llist, path) == -1)
+		if ((llist = stockrec(llist, path)) == NULL)
 			return (NULL);
 	}
 	if (closedir(dir) == -1)

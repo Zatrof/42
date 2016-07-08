@@ -1,31 +1,36 @@
 FT_LS:
+	-destroy list at end
 
->Test:
+DEBUG:
+	NORMINETTE:
+		Norme: ./annexe_print_and_destroy.c
+		Norme: ./main.c
+		Norme: ./ft_ls.h
+		Norme: ./detect_opts.c
+		Norme: ./sortfile.c
+		Norme: ./print_and_destroy.c
+		Norme: ./annexe_stockdata.c
+		Norme: ./stockdata.c
+		Error (line 83): function stockdata has 29 lines
+
+	-ft_ls ../.. (x)
+		\_ERROR - ADD DATA
 	-ft_ls [correct file] (v)
 	-ft_ls [error file] (v)
 	-ft_ls [correct file] [correct file] (v)
 	-ft_ls [correct file] [error file] (v)
 	-ft_ls [error file] [correct file] (v)
-	-ft_ls [correct dir] [correct dir] (x)
-		\_output format *
-	-ft_ls [correct dir] [error dir] (x)
-		\_output format *
-	-ft_ls -R (x)
-		\_output format *
-	-ft_ls -R [correct dir] [correct dir] (x)
-		\_output format *
+	-ft_ls [correct dir] [correct dir] (v)
+	-ft_ls [correct dir] [correct dir] [correct dir] (v)
+	-ft_ls [correct dir] [error dir] (v)
+	-ft_ls -R (v)
+	-ft_ls -R [correct dir] [correct dir] (v)
+	-ft_ls -R [error dir] [correct dir] (x)
+		\_segmentation fault
+	-ft_ls -R [correct dir] [error dir] (x)
+		\_segmentation fault *
+	-ft_ls -l [error dir] (x)
+		\_segmentation fault *
 
-* Output format:
-	- when ac >= 2 => print dir name + space between **
-		ex:	->./ft_ls . ..
-			->.:
-			->[file]
-			->...
-			->...
-			->(space **)
-			->..:
-			->[file]
-			->...
-			->...
-			->...
-	- when ac == 1 => no dir name
+* Segmentation fault:
+	\_test error = segfault
