@@ -6,7 +6,7 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/25 16:32:53 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/07/08 16:40:38 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/07/12 20:26:52 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,14 @@ void				printlist(t_file *file, int i, t_opts opts, int p)
 			ft_putstr(file->date);
 			ft_putstr(" ");
 		}
-		ft_putendl(file->name);
+		if (file->perm[0] == 'l' && file->slink != NULL && opts.l == 1)
+		{
+			ft_putstr(file->name);
+			ft_putstr(" -> ");
+			ft_putendl(file->slink);
+		}
+		else
+			ft_putendl(file->name);
 	}
 }
 
@@ -51,6 +58,9 @@ void				print_and_destroy(t_llist *llist, t_opts opts)
 	list = llist->start;
 	if (opts.l == 1 && llist->size != -1)
 	{
+		ft_putstr("total ");
+		ft_putnbr(llist->total);
+		ft_putendl("");
 		p = thebiggestl(llist, opts);
 		i = thebiggests(llist, opts) + 2;
 	}
@@ -58,11 +68,12 @@ void				print_and_destroy(t_llist *llist, t_opts opts)
 	{
 		f = list->content;
 		if (f->name != NULL && llist->size != -1)
+		{
 			printlist(f, i, opts, p);
+		}
 		else
 			ft_putendl_fd(f->logerror, 2);
 		list = list->next;
 	}
 	llist = print_rec(opts, list, llist, f);
-	free(llist);
 }

@@ -6,7 +6,7 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/08 15:57:01 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/07/08 16:10:55 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/07/12 19:37:22 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,11 @@ int					thebiggests(t_llist *llist, t_opts opts)
 	while (tmp)
 	{
 		f = tmp->content;
-		if (ft_nbrlen(f->size) > i)
-			i = ft_nbrlen(f->size);
+		if (f->name[0] != '.' || opts.a == 1)
+		{
+			if (ft_nbrlen(f->size) > i)
+				i = ft_nbrlen(f->size);
+		}
 		tmp = tmp->next;
 	}
 	return (i);
@@ -67,7 +70,7 @@ int					thebiggests(t_llist *llist, t_opts opts)
 t_llist				*print_rec(t_opts opts, t_list *list, t_llist *llist, \
 	t_file *f)
 {
-	if (opts.rr == 1)
+	if (opts.rr == 1 && llist->size != -1)
 	{
 		list = llist->start;
 		while (list)

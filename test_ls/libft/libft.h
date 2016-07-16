@@ -6,7 +6,7 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/17 13:04:56 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/05/16 14:18:20 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/07/16 21:40:24 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
+
+# define ABS(value) ((value < 0) ? -value : value)
 
 typedef struct		s_list
 {

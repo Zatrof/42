@@ -6,13 +6,13 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/23 16:40:37 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/07/08 16:27:24 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/07/12 18:06:46 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static t_llist		*test_ex(char *dirname, t_llist *llist)
+static t_llist		*test_ex(char *dirname, t_llist *llist, t_opts o)
 {
 	DIR				*dir;
 	struct dirent	*sfile;
@@ -29,7 +29,7 @@ static t_llist		*test_ex(char *dirname, t_llist *llist)
 		if (ft_strcmp(dirname, sfile->d_name) == 0)
 		{
 			test = 1;
-			if (rdata(ft_strjoin(".", "/"), &llist, sfile->d_name) == -1)
+			if (rdata(ft_strjoin(".", "/"), &llist, sfile->d_name, o) == -1)
 			{
 				ft_putendl_fd("ERROR - ADD DATA", 2);
 				return (NULL);
@@ -41,7 +41,7 @@ static t_llist		*test_ex(char *dirname, t_llist *llist)
 	return (llist);
 }
 
-static t_llist		*stockrec(t_llist *llist, char *path)
+static t_llist		*stockrec(t_llist *llist, char *path, t_opts opts)
 {
 	t_list			*tmp;
 	t_file			*test;
@@ -55,7 +55,7 @@ static t_llist		*stockrec(t_llist *llist, char *path)
 			return (NULL);
 		if ((test->path = ft_strjoin(path, test->name)) == NULL)
 			return (NULL);
-		if ((test->rec = stockdata(test->path, test->rec)) == NULL)
+		if ((test->rec = stockdata(test->path, test->rec, opts)) == NULL)
 		{
 			ft_putendl_fd("ERROR - ADD DATA", 2);
 			return (NULL);
@@ -83,7 +83,7 @@ static t_llist		*logerror(char *dirname, t_llist *llist)
 	return (llist);
 }
 
-t_llist				*stockdata(char *dirname, t_llist *llist)
+t_llist				*stockdata(char *dirname, t_llist *llist, t_opts opts)
 {
 	DIR				*dir;
 	struct dirent	*sfile;
@@ -91,7 +91,7 @@ t_llist				*stockdata(char *dirname, t_llist *llist)
 
 	if ((dir = opendir(dirname)) == NULL)
 	{
-		if ((llist = test_ex(dirname, llist)) != NULL)
+		if ((llist = test_ex(dirname, llist, opts)) != NULL)
 			return (llist);
 		if ((llist = logerror(dirname, llist)) == NULL)
 			return (NULL);
@@ -100,13 +100,19 @@ t_llist				*stockdata(char *dirname, t_llist *llist)
 	while ((sfile = readdir(dir)) != NULL)
 	{
 		path = ft_strjoin(dirname, "/");
-		if (rdata(path, &llist, sfile->d_name) == -1)
+		if (rdata(path, &llist, sfile->d_name, opts) == -1)
 		{
 			ft_putendl_fd("ERROR - ADD DATA", 2);
 			return (NULL);
 		}
-		if ((llist = stockrec(llist, path)) == NULL)
-			return (NULL);
+		if (opts.rr == 1)
+		{
+			if ((llist = stockrec(llist, path, opts)) == NULL)
+			{
+				ft_putendl(ft_strjoin(path, sfile->d_name));
+				return (NULL);
+			}
+		}
 	}
 	if (closedir(dir) == -1)
 	{

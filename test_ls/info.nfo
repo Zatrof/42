@@ -1,36 +1,40 @@
 FT_LS:
-	-destroy list at end
+	\_destroy list at end
+	\_leaks
+	\_speed optimization
 
 DEBUG:
-	NORMINETTE:
-		Norme: ./annexe_print_and_destroy.c
-		Norme: ./main.c
+	\_NORMINETTE:
 		Norme: ./ft_ls.h
+		Error (line 64): must begin only by tabulations
 		Norme: ./detect_opts.c
+		Norme: ./annexe_print_and_destroy.c
 		Norme: ./sortfile.c
+		Norme: ./main.c
 		Norme: ./print_and_destroy.c
+		Error (line 44): function print_and_destroy has 26 lines
 		Norme: ./annexe_stockdata.c
+		Error (line 67): function rdata has 27 lines
 		Norme: ./stockdata.c
-		Error (line 83): function stockdata has 29 lines
+		Error (line 86): function stockdata has 36 lines
 
-	-ft_ls ../.. (x)
-		\_ERROR - ADD DATA
-	-ft_ls [correct file] (v)
-	-ft_ls [error file] (v)
-	-ft_ls [correct file] [correct file] (v)
-	-ft_ls [correct file] [error file] (v)
-	-ft_ls [error file] [correct file] (v)
-	-ft_ls [correct dir] [correct dir] (v)
-	-ft_ls [correct dir] [correct dir] [correct dir] (v)
-	-ft_ls [correct dir] [error dir] (v)
-	-ft_ls -R (v)
-	-ft_ls -R [correct dir] [correct dir] (v)
-	-ft_ls -R [error dir] [correct dir] (x)
-		\_segmentation fault
-	-ft_ls -R [correct dir] [error dir] (x)
-		\_segmentation fault *
-	-ft_ls -l [error dir] (x)
-		\_segmentation fault *
-
-* Segmentation fault:
-	\_test error = segfault
+	\_TEST:
+		detect_opts
+			\_-.
+			\_-.l
+			\_-r.
+		ft_ls ../.. (v)
+		ft_ls -R ../.. (v)
+		ft_ls [correct file] (v)
+		ft_ls [error file] (v)
+		ft_ls [correct file] [correct file] (v)
+		ft_ls [correct file] [error file] (v)
+		ft_ls [error file] [correct file] (v)
+		ft_ls [correct dir] [correct dir] (v)
+		ft_ls [correct dir] [correct dir] [correct dir] (v)
+		ft_ls [correct dir] [error dir] (v)
+		ft_ls -R (v)
+		ft_ls -R [correct dir] [correct dir] (v)
+		ft_ls -R [error dir] [correct dir] (v)
+		ft_ls -R [correct dir] [error dir] (v)
+		ft_ls -l [error dir] [error dir] (v)

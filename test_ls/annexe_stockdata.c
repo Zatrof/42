@@ -6,7 +6,7 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/15 17:48:53 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/07/05 16:55:53 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/07/14 22:17:59 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,13 @@ int					perm(mode_t right, t_file **file)
 
 	if ((perm = ft_strnew(10)) == NULL)
 		return (-1);
-	perm[0] = (right & S_IFSOCK) ? 's' : '-';
-	perm[0] = (right & S_IFLNK) ? 'l' : '-';
-	perm[0] = (right & S_IFBLK) ? 'b' : '-';
-	perm[0] = (right & S_IFCHR) ? 'c' : '-';
-	perm[0] = (right & S_IFIFO) ? 'f' : '-';
-	perm[0] = (right & S_IFDIR) ? 'd' : '-';
+	perm[0] = '-';
+	perm[0] = (S_ISDIR(right)) ? 'd' : perm[0];
+	perm[0] = (S_ISCHR(right)) ? 'c' : perm[0];
+	perm[0] = (S_ISLNK(right)) ? 'l' : perm[0];
+	perm[0] = (S_ISSOCK(right)) ? 's' : perm[0];
+	perm[0] = (S_ISFIFO(right)) ? 'f' : perm[0];
+	perm[0] = (S_ISBLK(right)) ? 'b' : perm[0];
 	perm[1] = (right & S_IRUSR) ? 'r' : '-';
 	perm[2] = (right & S_IWUSR) ? 'w' : '-';
 	perm[3] = (right & S_IXUSR) ? 'x' : '-';
@@ -64,17 +65,19 @@ char				*mtime(time_t *t)
 	return (tmp);
 }
 
-int					rdata(char *path, t_llist **llist, char *filename)
+int					rdata(char *path, t_llist **llist, char *filename, t_opts o)
 {
 	t_list			*list;
 	t_file			*file;
+	char			*temp;
+	char			*b;
 	struct stat		buf;
 
 	if ((file = (t_file*)malloc(sizeof(*file))) == NULL)
 		return (-1);
 	if ((file->name = ft_strdup(filename)) == NULL)
 		return (-1);
-	if (stat(ft_strjoin(path, filename), &buf) == -1)
+	if (lstat(ft_strjoin(path, filename), &buf) == -1)
 		return (-1);
 	if (rstat(path, filename, &file, buf) == -1)
 		return (-1);
@@ -86,6 +89,16 @@ int					rdata(char *path, t_llist **llist, char *filename)
 	file->time = buf.st_mtime;
 	file->size = buf.st_size;
 	file->link = buf.st_nlink;
+	file->block = buf.st_blocks;
+	if (o.l == 1 && file->perm[0] == 'l')
+	{
+		b = ft_strnew(buf.st_size);
+		readlink(ft_strjoin(path, filename), b, buf.st_size + 1);
+		if ((file->slink = ft_strdup(b)) == NULL)
+			return (-1);
+	}
+	if (o.a == 1 || file->name[0] != '.')
+		(*llist)->total += file->block;
 	list = (*llist)->start;
 	ft_lstadd(&list, ft_lstnew(file, sizeof(*file)));
 	(*llist)->start = list;

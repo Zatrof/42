@@ -6,7 +6,7 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/19 17:18:33 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/06/15 17:41:28 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/07/16 21:35:52 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ static int			comparecontent(t_file *cont1, t_file *cont2, t_opts opts)
 {
 	if (opts.t == 1)
 	{
+		if (cont2->time - cont1->time == 0)
+		{
+			if (opts.r == 1)
+				return (ft_strcmp(cont1->name, cont2->name) * -1);
+			return (ft_strcmp(cont1->name, cont2->name));
+		}
 		if (opts.r == 1)
 			return (cont1->time - cont2->time);
 		return ((cont1->time - cont2->time) * -1);
@@ -23,6 +29,14 @@ static int			comparecontent(t_file *cont1, t_file *cont2, t_opts opts)
 	if (opts.r == 1)
 		return (ft_strcmp(cont1->name, cont2->name) * -1);
 	return (ft_strcmp(cont1->name, cont2->name));
+}
+
+int					swaptmp(t_file *tmp, t_list *tmp1, t_list *tmp2)
+{
+	tmp = tmp1->content;
+	tmp1->content = tmp2->content;
+	tmp2->content = tmp;
+	return (1);
 }
 
 t_llist				*sortfile(t_llist *llist, t_opts opts)
@@ -41,13 +55,8 @@ t_llist				*sortfile(t_llist *llist, t_opts opts)
 		while (tmp1->next != NULL)
 		{
 			tmp2 = tmp1->next;
-			if (comparecontent(tmp1->content, tmp2->content, opts) > 0)
-			{
-				swap = 1;
-				tmp = tmp1->content;
-				tmp1->content = tmp2->content;
-				tmp2->content = tmp;
-			}
+			if ((i = comparecontent(tmp1->content, tmp2->content, opts)) > 0)
+				swap = swaptmp(tmp, tmp1, tmp2);
 			tmp1 = tmp1->next;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/11 17:05:08 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/05/19 16:16:34 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/07/16 23:05:57 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,23 @@ int					detect_opts(int ac, char **av, t_opts *opts)
 		{
 			if (av[i][t] == 'a')
 				opts->a = 1;
-			if (av[i][t] == 'l')
+			else if (av[i][t] == 'l')
 				opts->l = 1;
-			if (av[i][t] == 'r')
+			else if (av[i][t] == 'r')
 				opts->r = 1;
-			if (av[i][t] == 't')
+			else if (av[i][t] == 't')
 				opts->t = 1;
-			if (av[i][t] == 'R')
+			else if (av[i][t] == 'R')
 				opts->rr = 1;
+			else
+			{
+				ft_putstr_fd("ft_ls: illegal option -- ", 2);
+				ft_putchar_fd(av[i][t], 2);
+				ft_putendl("");
+				ft_putstr_fd("usage: ft_ls [-ABCFGHLOPRSTUWabcde", 2);
+				ft_putendl_fd("fghiklmnopqrstuwx1] [file ...]", 2);
+				return (-1);
+			}
 			t++;
 		}
 		i++;

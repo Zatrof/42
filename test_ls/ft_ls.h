@@ -6,7 +6,7 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 18:36:06 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/07/08 15:58:46 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/07/14 22:18:17 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,10 @@ typedef struct		s_file
 	char			*group;
 	char			*date;
 	char			*logerror;
+	char			*slink;
 	int				size;
 	int				link;
+	int				block;
 	long			time;
 	char			*path;
 	struct s_llist	*rec;
@@ -51,6 +53,7 @@ typedef struct		s_llist
 {
 	t_list			*start;
 	int				size;
+	int				total;
 }					t_llist;
 
 void				destroy(t_list *list);
@@ -58,13 +61,14 @@ int					thebiggestl(t_llist *llist, t_opts opts);
 int					thebiggests(t_llist *llist, t_opts opts);
 t_llist				*print_rec(t_opts opts, t_list *list, t_llist *llist, \
 	t_file *f);
-int					rdata(char *path, t_llist **llist, char *filename);
+int					rdata(char *path, t_llist **llist, char *filename,\
+	t_opts o);
 char				*mtime(time_t *t);
 int					perm(mode_t right, t_file **file);
 int					rstat(char *path, char *filename, t_file **file, \
 	struct stat buf);
 int					detect_opts(int ac, char **av, t_opts *opts);
-t_llist				*stockdata(char *dirname, t_llist *llist);
+t_llist				*stockdata(char *dirname, t_llist *llist, t_opts opts);
 t_llist				*sortfile(t_llist *llist, t_opts opts);
 void				print_and_destroy(t_llist *llist, t_opts opts);
 t_llist				*initllist(t_llist *llist);
