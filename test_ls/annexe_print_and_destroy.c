@@ -6,23 +6,47 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/08 15:57:01 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/07/12 19:37:22 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/07/25 19:50:46 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void				destroy(t_list *list)
+t_list				*freelist(t_list *tmp, t_file *file)
 {
-	t_file			*tmp;
+	t_list			*l;
 
-	tmp = list->content;
-	ft_strdel(&tmp->perm);
-	ft_strdel(&tmp->name);
-	ft_strdel(&tmp->user);
-	ft_strdel(&tmp->group);
-	ft_strdel(&tmp->date);
-	free(list);
+	l = tmp;
+	free(file);
+	tmp = tmp->next;
+	l = NULL;
+	return (tmp);
+}
+
+void				destroy_list(t_llist *llist)
+{
+	t_list			*tmp;
+	t_file			*file;
+
+	tmp = llist->start;
+	while (tmp)
+	{
+		file = tmp->content;
+		ft_strdel(&file->name);
+		ft_strdel(&file->perm);
+		ft_strdel(&file->user);
+		ft_strdel(&file->group);
+		ft_strdel(&file->date);
+		ft_strdel(&file->logerror);
+		if (file->path)
+			ft_strdel(&file->path);
+		if (file->slink)
+			ft_strdel(&file->slink);
+		if (file->rec)
+			destroy_list(file->rec);
+		tmp = freelist(tmp, file);
+	}
+	tmp = NULL;
 }
 
 int					thebiggestl(t_llist *llist, t_opts opts)

@@ -6,7 +6,7 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 18:35:24 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/07/16 22:56:59 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/07/25 20:17:42 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ int					main(int ac, char **av)
 		i++;
 		test = 1;
 	}
+	free(llist);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 18:36:06 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/07/14 22:18:17 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/07/19 21:03:12 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft/libft.h"
 # include <sys/types.h>
 # include <sys/stat.h>
+# include <sys/xattr.h>
 # include <pwd.h>
 # include <time.h>
 # include <grp.h>
@@ -56,7 +57,11 @@ typedef struct		s_llist
 	int				total;
 }					t_llist;
 
-void				destroy(t_list *list);
+void				destroy_list(t_llist *llist);
+t_llist				*stockrec(t_llist *llist, char *path, t_opts opts);
+char				*annexe_stockdata(char *dirname, t_llist **llist,\
+	t_opts opts, DIR *dir);
+t_file				*annexe_rdata(char *filename, char *path, struct stat buf);
 int					thebiggestl(t_llist *llist, t_opts opts);
 int					thebiggests(t_llist *llist, t_opts opts);
 t_llist				*print_rec(t_opts opts, t_list *list, t_llist *llist, \

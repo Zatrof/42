@@ -6,7 +6,7 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/15 17:48:53 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/07/14 22:17:59 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/07/19 19:42:59 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,23 +73,10 @@ int					rdata(char *path, t_llist **llist, char *filename, t_opts o)
 	char			*b;
 	struct stat		buf;
 
-	if ((file = (t_file*)malloc(sizeof(*file))) == NULL)
-		return (-1);
-	if ((file->name = ft_strdup(filename)) == NULL)
-		return (-1);
 	if (lstat(ft_strjoin(path, filename), &buf) == -1)
 		return (-1);
-	if (rstat(path, filename, &file, buf) == -1)
+	if ((file = annexe_rdata(filename, path, buf)) == NULL)
 		return (-1);
-	if (perm(buf.st_mode, &file) == -1)
-		return (-1);
-	if ((file->date = mtime(&buf.st_mtime)) == NULL)
-		return (-1);
-	file->logerror = NULL;
-	file->time = buf.st_mtime;
-	file->size = buf.st_size;
-	file->link = buf.st_nlink;
-	file->block = buf.st_blocks;
 	if (o.l == 1 && file->perm[0] == 'l')
 	{
 		b = ft_strnew(buf.st_size);

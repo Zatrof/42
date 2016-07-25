@@ -6,7 +6,7 @@
 /*   By: jbristhu <jbristhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/23 16:40:37 by jbristhu          #+#    #+#             */
-/*   Updated: 2016/07/12 18:06:46 by jbristhu         ###   ########.fr       */
+/*   Updated: 2016/07/24 23:09:14 by jbristhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static t_llist		*test_ex(char *dirname, t_llist *llist, t_opts o)
 	return (llist);
 }
 
-static t_llist		*stockrec(t_llist *llist, char *path, t_opts opts)
+t_llist				*stockrec(t_llist *llist, char *path, t_opts opts)
 {
 	t_list			*tmp;
 	t_file			*test;
@@ -97,23 +97,8 @@ t_llist				*stockdata(char *dirname, t_llist *llist, t_opts opts)
 			return (NULL);
 		return (llist);
 	}
-	while ((sfile = readdir(dir)) != NULL)
-	{
-		path = ft_strjoin(dirname, "/");
-		if (rdata(path, &llist, sfile->d_name, opts) == -1)
-		{
-			ft_putendl_fd("ERROR - ADD DATA", 2);
-			return (NULL);
-		}
-		if (opts.rr == 1)
-		{
-			if ((llist = stockrec(llist, path, opts)) == NULL)
-			{
-				ft_putendl(ft_strjoin(path, sfile->d_name));
-				return (NULL);
-			}
-		}
-	}
+	if ((path = annexe_stockdata(dirname, &llist, opts, dir)) == NULL)
+		return (NULL);
 	if (closedir(dir) == -1)
 	{
 		perror(ft_strjoin("ft_ls: ", dirname));
